@@ -1,6 +1,7 @@
 var MongoDB = require('../dbm');
 var ObjectID = require('mongodb').ObjectID;
 var bcrypt = require('bcrypt');
+const { text } = require('express');
 
 class SeguridadModel {
   constructor() {
@@ -17,11 +18,13 @@ class SeguridadModel {
     )
   }
   async addUsuario( data ) {
-    const {email, password} = data;
+    const {email, password, fullname, direccion} = data;
     try {
       let nuevo = {
         "email": email,
         "password": bcrypt.hashSync(password, 10),
+        "fullname": fullname,
+        "direccion": direccion,
         "lastlogin": 0,
         "lastpwdchg": 0,
         "pwdexp": new Date().getTime() + (1000*60*60*24*90),
